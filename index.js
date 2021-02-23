@@ -9,6 +9,12 @@ class Vec2 {
 			this.y - vec.y
 		)
 	}
+	len() {
+		return Math.hypot(
+			this.x,
+			this.y
+		)
+	}
 	angle() {
 		let angle = Math.atan(this.y / this.x)
 		if (this.x < 0) {
@@ -16,7 +22,7 @@ class Vec2 {
 		} else if (this.x > 0 && this.y < 0) {
 			angle += Math.PI * 2
 		}
-		return angle
+		return (angle + Math.PI * 2) % (Math.PI * 2)
 	}
 	rotate(angle) {
 		let vec = new Vec2(this.x, this.y)
@@ -260,6 +266,7 @@ function draw() {
 		wall.draw()
 	})
 	ls.draw()
+	// ls.draw1()
 }
 
 // create canvas
@@ -272,7 +279,7 @@ document.body.appendChild(cnv)
 const tiles = {
 	width: 25,
 	height: 25,
-	colors: ["white", "black", "blue", "green", "red", "purple", "magenta", "cyan", "yellow"]
+	colors: ["white", "black", "blue", "green", "red", "brown", "magenta", "cyan", "yellow"]
 }
 const maps = [
 	[
