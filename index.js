@@ -243,6 +243,14 @@ function convertMap() {
 	})
 }
 
+function setupMap(mapID) {
+	walls = []
+	vertices = []
+	map = maps[mapID]
+	convertMap()
+	vertices = getVertices(walls)
+}
+
 function drawLine(a, b, color = 1) {
 	ctx.beginPath()
 	ctx.moveTo(a.x, a.y)
@@ -250,8 +258,8 @@ function drawLine(a, b, color = 1) {
 	ctx.strokeStyle = tiles.colors[color]
 	ctx.lineWidth = 1
 	ctx.stroke()
-	drawPoint(a, color)
-	drawPoint(b, color)
+	// drawPoint(a, color)
+	// drawPoint(b, color)
 }
 
 function drawPoint(p, color = 1, r = 2) {
@@ -281,7 +289,7 @@ document.body.appendChild(cnv)
 const tiles = {
 	width: 25,
 	height: 25,
-	colors: ["white", "black", "blue", "green", "red", "brown", "magenta", "cyan", "yellow"]
+	colors: ["white", "grey", "blue", "green", "red", "brown", "magenta", "cyan", "yellow"]
 }
 const maps = [
 	[
@@ -362,12 +370,28 @@ const maps = [
 	]
 ]
 
-const map = maps[2]
+const menu = document.createElement("div")
+menu.id = "menu"
+maps.forEach((item, index) => {
+	const link = document.createElement("a")
+	link.href = "#"
+	link.dataset.id = index
+	link.textContent = `Map #${index}`
+	link.addEventListener("click", e => {
+		e.preventDefault()
+		setupMap(e.target.dataset.id)
+		draw()
+	})
+	menu.appendChild(link)
+})
+document.body.appendChild(menu)
 
-const walls = []
-convertMap()
 const ls = new LightSource(150, 300)
-const vertices = getVertices(walls)
+
+let map = maps[0]
+let walls = []
+let vertices = []
+setupMap(2)
 
 cnv.addEventListener("mousemove", e => {
 	ls.setPos(e.offsetX, e.offsetY)
