@@ -19,18 +19,19 @@ class Vec2 {
 		let angle = Math.atan(this.y / this.x)
 		if (this.x < 0) {
 			angle += Math.PI
-		} else if (this.x > 0 && this.y < 0) {
+		} else if (this.x >= 0 && this.y < 0) {
 			angle += Math.PI * 2
 		}
-		return (angle + Math.PI * 2) % (Math.PI * 2)
+		return angle
 	}
 	rotate(angle) {
-		let vec = new Vec2(this.x, this.y)
-		let ca = Math.cos(angle)
-		let sa = Math.sin(angle)
-		vec.x = vec.x * ca - vec.y * sa
-		vec.y = vec.x * sa + vec.y * ca
-		return vec
+		const ca = Math.cos(angle)
+		const sa = Math.sin(angle)
+		const x = this.x * ca - this.y * sa
+		const y = this.x * sa + this.y * ca
+		this.x = x
+		this.y = y
+		return this
 	}
 	add(vec) {
 		this.x += vec.x
@@ -88,9 +89,10 @@ class LightSource {
 			}
 		}
 		ctx.closePath()
-		let gradient = ctx.createRadialGradient(this.pos.x, this.pos.y, 0, this.pos.x, this.pos.y, 300)
-		gradient.addColorStop(0, "yellow")
-		gradient.addColorStop(1, "black")
+		let gradient = ctx.createRadialGradient(this.pos.x, this.pos.y, 0, this.pos.x, this.pos.y, 400)
+		gradient.addColorStop(0, "#ffffff")
+		gradient.addColorStop(0.4, "#ffc371")
+		gradient.addColorStop(1, "#000000")
 		ctx.fillStyle = gradient
 		ctx.fill()
 	}
@@ -360,7 +362,7 @@ const maps = [
 	]
 ]
 
-const map = maps[0]
+const map = maps[2]
 
 const walls = []
 convertMap()
